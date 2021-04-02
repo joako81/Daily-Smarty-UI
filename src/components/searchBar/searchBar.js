@@ -1,13 +1,34 @@
 import React, { Component } from 'react';
 
+import {Field, reduxForm} from 'redux-form';
+
 class SearchBar extends Component {
+
+    handleFormSubmit = function({query}) {
+        //navigate to a new route
+        console.log('trying to handle submit for query', query);
+    }
+
+    renderInput(field) {
+        return <input type="text" placeholder="Search DailySmarty" {...field.input}/>
+    }
+
+
     render() {
-        return (
-            <form>
-                <input placeholder="Search DailySmarty"/>
+
+        const {handleSubmit} = this.props;
+
+        return (      
+
+            <form className="search-bar" onSubmit= {handleSubmit(this.handleFormSubmit.bind(this))}>
+                <Field name ="query" component= {this.renderInput}/>
             </form>
         );
     }
 }
+
+SearchBar = reduxForm({
+    form: 'SearchBar'   
+}) (SearchBar)
 
 export default SearchBar;
