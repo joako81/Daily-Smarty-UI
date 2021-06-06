@@ -10,6 +10,19 @@ class SearchBar extends Component {
         this.props.fetchRecentPosts();
     }
 
+    renderPosts = function() {
+        const posts = this.props.recentPosts.map((post, index) => {
+            if(index < 3) {
+                return (
+                    <li key={index}>
+                        {post.title}
+                    </li>
+                )   
+            }
+        })
+        return posts
+    }
+
     render() {
         return (
             <div className="recents-posts">
@@ -17,9 +30,7 @@ class SearchBar extends Component {
                     <div className="recent-posts-heading"> Recent Posts
                     </div>
                         <ul className ="recent-posts-list">
-                            <li>Recent Post 1</li>
-                            <li>Recent Post 2</li>
-                            <li>Recent Post 3</li>
+                          {this.renderPosts()}
                         </ul>
                 </div>
                     
@@ -28,4 +39,10 @@ class SearchBar extends Component {
     }
 }
 
-export default connect(null, actions)(SearchBar);
+function mapStateToProps(state){
+    return {
+        recentPosts: state.posts.recentPosts
+    }
+}
+
+export default connect(mapStateToProps, actions)(SearchBar);
